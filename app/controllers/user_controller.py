@@ -75,6 +75,34 @@ def delete(id):
 
     except Exception as e:
         return response.bad_request_response([], str(e))
+    
+
+def login():
+    try:
+        email = request.json['email']
+        password = request.json['password']
+
+        print(email)
+        print(password)
+
+        user = User.query.filter_by(email=email).first()
+        # print(User.password)    
+        if not user:
+            print("usersnya salah")
+            return response.bad_request_response([], 'user not found')
+        
+        print("usersnya udah bener")
+        if not User.checkPassword(user, password):
+            print("password salah")
+            return response.bad_request_response([], 'invalid password')
+        print("ini tuh jalan")
+        data = transform(user)
+        return response.success_response(data, "success")
+
+    except Exception as e:
+        print("ini tuh error")
+        return response.bad_request_response([], str(e))
+
 
 def transform(user):
     data = {

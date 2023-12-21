@@ -25,3 +25,9 @@ def userById(id):
         return user_controller.delete(id)
     else:
         return user_controller.index()
+    
+
+@app.route('/login',methods=['POST'])
+def login():
+    if request.method == 'POST':
+        return user_controller.login()
